@@ -11,7 +11,7 @@ public interface IUserService
     /// <param name="username"></param>
     /// <param name="password"></param>
     /// <returns></returns>
-    Task<AuthenticationResponse?> Login(string username, string password);
+    Task<AuthenticationResponse?> Login(LoginRequest? loginRequest);
     /// <summary>
     /// Method to register a new user
     /// </summary>

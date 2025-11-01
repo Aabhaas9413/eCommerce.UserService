@@ -35,7 +35,8 @@ public class ExceptionHandlingMiddleware
             }
 
             httpContext.Response.StatusCode = 500;
-            await httpContext.Response.WriteAsJsonAsync(new { Message = ex.Message, Type = ex.GetType() });
+            // Do not attempt to serialize System.Type; return the type name instead
+            await httpContext.Response.WriteAsJsonAsync(new { Message = ex.Message, Type = ex.GetType().FullName });
         }
     }
 }

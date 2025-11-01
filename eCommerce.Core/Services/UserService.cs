@@ -2,12 +2,6 @@
 using eCommerce.Core.Entities.DTOs;
 using eCommerce.Core.RepositoryContracts;
 using eCommerce.Core.ServiceContracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace eCommerce.Core.Services
 {
@@ -19,14 +13,14 @@ namespace eCommerce.Core.Services
         {
             _userRepository = userRepository;
         }
-        public async Task<AuthenticationResponse?> Login(string username, string password)
+        public async Task<AuthenticationResponse?> Login(LoginRequest loginRequest)
         {
-            ApplicationUser? user = await _userRepository.GetUserByEmailAndPassword(username, password);
+            ApplicationUser? user = await _userRepository.GetUserByEmailAndPassword(loginRequest.Email, loginRequest.Password);
             if (user is null)
             {
                 return null;
             }
-            return new AuthenticationResponse(user.UserID, user.Email, user.PersonName, user.Gender, " ", true);           
+            return new AuthenticationResponse(user.UserID, user.Email, user.PersonName, user.Gender, " ", true);
         }
 
         public async Task<AuthenticationResponse?> Register(RegisterRequest? registerRequest)
@@ -48,3 +42,4 @@ namespace eCommerce.Core.Services
 
         }
     }
+}
