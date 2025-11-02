@@ -13,33 +13,45 @@ namespace eCommerce.Core.Services
         {
             _userRepository = userRepository;
         }
-        public async Task<AuthenticationResponse?> Login(LoginRequest loginRequest)
+
+        public async Task<AuthenticationResponse?> Login(LoginRequest? loginRequest)
         {
+            if (loginRequest is null)
+            {
+                return null;
+            }
+
             ApplicationUser? user = await _userRepository.GetUserByEmailAndPassword(loginRequest.Email, loginRequest.Password);
             if (user is null)
             {
                 return null;
             }
-            return new AuthenticationResponse(user.UserID, user.Email, user.PersonName, user.Gender, " ", true);
+
+            return AuthenticationResponse.From(user, " ", true);
         }
 
         public async Task<AuthenticationResponse?> Register(RegisterRequest? registerRequest)
         {
+            if (registerRequest is null)
+            {
+                return null;
+            }
+
             ApplicationUser newUser = new ApplicationUser()
             {
-                Email = registerRequest?.Email,
-                Password = registerRequest?.Password,
-                PersonName = registerRequest?.PersonName,
+                Email = registerRequest.Email,
+                Password = registerRequest.Password,
+                PersonName = registerRequest.PersonName,
                 Gender = registerRequest.Gender.ToString(),
             };
+
             ApplicationUser? user = await _userRepository.AddUser(newUser);
             if (user is null)
             {
                 return null;
             }
-            return new AuthenticationResponse(user.UserID, user.Email, user.PersonName, user.Gender, "", true);
 
-
+            return AuthenticationResponse.From(user, string.Empty, true);
         }
     }
 }
