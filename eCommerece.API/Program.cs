@@ -2,6 +2,7 @@ using eCommerce.Infrastructure;
 using eCommerce.Core;
 using eCommerece.API.Middleware;
 using System.Text.Json.Serialization;
+using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,7 @@ builder.Services.AddControllers()
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 
