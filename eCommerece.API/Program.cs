@@ -18,6 +18,17 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(null, allowIntegerValues: false));
     });
 
+// Configure CORS - permissive policy for development (allow all origins)
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 // Add Swagger/OpenAPI
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -34,6 +45,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandlingMiddleware();
 app.UseRouting();
+
+// Enable CORS for the pipeline
+app.UseCors("AllowAll");
 
 app.UseAuthentication();
 app.UseAuthorization();

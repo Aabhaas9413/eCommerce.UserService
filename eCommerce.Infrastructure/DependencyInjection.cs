@@ -13,7 +13,7 @@ public static  class DependencyInjection
         // Infrastructure service registrations go here
         services.AddTransient<DapperDbContext>();
         services.AddSingleton(configuration);
-        services.AddSingleton<IUserRepository, UserRepository>();
+        services.AddTransient<IUserRepository, UserRepository>();
         return services;
     }
 }
